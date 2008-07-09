@@ -1,0 +1,2 @@
+# cat=basic/enable; type=options[both,doktype,plugin]; label=Choose operating mode: Activate the pagebrowser via the doktype ("doktype"), via the "Contains plugin" field in the page properties or with both methods
+opMode = both

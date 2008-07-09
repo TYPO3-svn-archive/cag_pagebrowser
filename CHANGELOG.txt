@@ -1,0 +1,40 @@
+1.2.0	* New feature: Insert a section with numbered pages. Thanks to Erich Bircher for the idea.
+
+1.1.1
+		* Bugfix for use with Templavoila: Data retrival using $this->cObj->data does not work within Templavoila. Now done using $this->cObj->getData. Thanks to Paul Vetch for feedback.
+
+1.1.0
+		* Completely revised version.
+		* Several things concerning the configuration had to be changed. Please have a look at the "Update" section in this manual.
+		* New feature: Pagebrowser can now be configured to use either the doktype or the "Contains plugin" field in the page properties. This means that you are able to insert paginations and set the doktype of the page to something different.
+		* New feature: The browser mode (standard/recursive) is now configurable in the TS template and not globally in the EM.
+		* New feature: You can now define a list of ids for pages that will be excluded from the pagebrowser in the .excludeUidList property.
+		* Revised entry link feature. Thanks to Costatino Lattarulo for the feature request.
+		* Bugfix: Browseword configuration for link to subsection in constand editor was messed up. Thanks to Bernd Wilke
+
+1.0.0
+		* Stable Version
+		* New Feature: Pagebrowser can now operate recursively for whole branches (to be set in EM)
+		* New Feature: Section link can be inserted to FIRST page in a subsection (to be set in EM)
+		* Pagebrowser now respects (and excludes) hidden and "Hide in menu" pages
+		* Several small bugfixes (eg. no "" for title attributes etc.)
+		* Revised manual
+
+0.1.5
+		* getting ready for t3skin
+
+0.1.3
+		* Changed the wording for index & browseword features in CONSTAT EDITOR. Now it should be clear that you can disable those features by setting their values to 0.
+		* The word for the indexlink is now configurable like all other browsewords with plugin.tx_cagpagebrowser.indexword(thx to Stefan Dumont for the feature request)
+
+0.1.2
+		* Rewrite of whole TS to so that it is now possible to exclude certain doktypes from the pagination (thx to Boris Podzeit for the feature request)
+		* Made the basic wraps of the pagination configurable with Constant Editor
+		* Revised manual
+
+0.1.1
+		* Correction of a minor TS bug: in some scenarios the "looping" did not work properly because the select query for the page sorting ended up with an empty value
+		* Revised manual (now with a section for templavoila)
+
+0.1.0
+		* Initial version (Thx. To Jochen Rieger for the nice icons)
