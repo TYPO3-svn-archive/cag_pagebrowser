@@ -1,3 +1,10 @@
+##########################################################
+# General TypoScript Config for plugin.tx_cagpagebrowser #
+##########################################################
+
+# include rendering class
+includeLibs.tx_cagpagebrowser = EXT:cag_pagebrowser/pi1/class.tx_cagpagebrowser.php
+
 plugin.tx_cagpagebrowser = COA
 plugin.tx_cagpagebrowser {
 

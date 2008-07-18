@@ -86,5 +86,4 @@ if ($_EXTCONF['opMode'] == 'plugin' || $_EXTCONF['opMode'] == 'both')	{
 		$ICON_TYPES['pbrowser'] = array('icon' => t3lib_extMgm::extRelPath($_EXTKEY).'pagebrowser.gif');
 	}
 }
-
 ?>

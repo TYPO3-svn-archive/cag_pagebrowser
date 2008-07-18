@@ -1,4 +1,9 @@
-1.2.0	* New feature: Insert a section with numbered pages. Thanks to Erich Bircher for the idea.
+1.2.1
+		* Bugfix: Display of pagebrowser doktype was broken in TYPO3 4.2.1
+		* Change: Use includeLibs instead of ST43
+
+1.2.0
+		* New feature: Insert a section with numbered pages. Thanks to Erich Bircher for the idea.
 
 1.1.1
 		* Bugfix for use with Templavoila: Data retrival using $this->cObj->data does not work within Templavoila. Now done using $this->cObj->getData. Thanks to Paul Vetch for feedback.

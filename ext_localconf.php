@@ -1,11 +1,7 @@
 <?php
-
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
 $_EXTCONF = unserialize($_EXTCONF);	// unserializing the configuration so we can use it here:
-
-// include the class with the userfunction
-t3lib_extMgm::addPItoST43($_EXTKEY,'pi1/class.tx_cagpagebrowser.php','','',1);
 
 if ($_EXTCONF['opMode'] == 'doktype')	{
 
@@ -39,5 +35,4 @@ if ($_EXTCONF['opMode'] == 'both')	{
 		plugin.tx_cagpagebrowser.entryLink.if.equals.cObject.browserFunction = both
 	');
 }
-
 ?>
