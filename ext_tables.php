@@ -21,14 +21,20 @@ t3lib_div::loadTCA('pages');
 if ($_EXTCONF['opMode'] == 'doktype' || $_EXTCONF['opMode'] == 'both')	{
 
 	if (TYPO3_MODE=='BE')	{
-		// Inserting new doktype into doktypes array and add icon
-		$PAGES_TYPES = t3lib_div::array_merge(array(
-			'21' => Array(
-				'icon' => t3lib_extMgm::extRelPath($_EXTKEY)."$icon",
-				'allowedTables' => '*'
-			)
-		),$PAGES_TYPES);
-
+		
+		// Inserting new doktype into doktypes array and add icon	
+		if (t3lib_div::compat_version('4.4')) {
+			t3lib_SpriteManager::addTcaTypeIcon('pages', '21', t3lib_extMgm::extRelPath($_EXTKEY).'pagebrowser.gif');
+			$TCA['pages']['types']['21']['allowedTables'] = '*';
+		} else {			
+			$PAGES_TYPES = t3lib_div::array_merge(array(
+				'21' => Array(
+					'icon' => t3lib_extMgm::extRelPath($_EXTKEY)."$icon",
+					'allowedTables' => '*'
+				)
+			), $PAGES_TYPES);		
+		}	
+		
 		// if the compat version is less than 4.2 things stay as they were
 		if (!t3lib_div::compat_version('4.2')) {
 
@@ -74,6 +80,7 @@ if ($_EXTCONF['opMode'] == 'doktype' || $_EXTCONF['opMode'] == 'both')	{
 					starttime, endtime, fe_login_mode, fe_group, extendToSubpages,
 				--div--;LLL:EXT:cms/locallang_tca.xml:pages.tabs.extended,
 			'),));
+			
 		}
 	}
 }
@@ -81,9 +88,16 @@ if ($_EXTCONF['opMode'] == 'doktype' || $_EXTCONF['opMode'] == 'both')	{
 if ($_EXTCONF['opMode'] == 'plugin' || $_EXTCONF['opMode'] == 'both')	{
 
 	if (TYPO3_MODE=='BE')	{
-		$TCA['pages']['columns']['module']['config']['items']['21']['0'] = 'LLL:EXT:cag_pagebrowser/locallang_tca.php:pages.doktype.I.21';
+		
+		$TCA['pages']['columns']['module']['config']['items']['21']['0'] = 'LLL:EXT:cag_pagebrowser/locallang_tca.php:pages.doktype.I.21';	
 		$TCA['pages']['columns']['module']['config']['items']['21']['1'] = 'pbrowser';
-		$ICON_TYPES['pbrowser'] = array('icon' => t3lib_extMgm::extRelPath($_EXTKEY).'pagebrowser.gif');
+		$TCA['pages']['columns']['module']['config']['items']['21']['2'] = t3lib_extMgm::extRelPath($_EXTKEY).'pagebrowser.gif';
+		
+		if (t3lib_div::compat_version('4.4')) {
+			t3lib_SpriteManager::addTcaTypeIcon('pages', 'contains-pbrowser', t3lib_extMgm::extRelPath($_EXTKEY).'pagebrowser.gif');
+		} else {
+			$ICON_TYPES['pbrowser'] = array('icon' => t3lib_extMgm::extRelPath($_EXTKEY).'pagebrowser.gif');
+		}
 	}
 }
 ?>

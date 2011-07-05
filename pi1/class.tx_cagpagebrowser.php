@@ -196,6 +196,8 @@ class tx_cagpagebrowser extends tslib_pibase {
 				foreach ($menuArr as $key => $value) {
 					// override titles
 					$menuArr[$key]['title'] = $key+1;
+					// override navigation titles
+					$menuArr[$key]['nav_title'] = $key+1;
 				}
 			}
 		}

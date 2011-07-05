@@ -293,8 +293,9 @@ plugin.tx_cagpagebrowser {
 				begin >
 				max = 1
 			}
-			typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.first}"
 		}
+		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.first}"
+		
 		# execute the LAST part only if we ARE on the LAST page in a section
 		if {
 			value.data = page:sorting

@@ -1,3 +1,9 @@
+1.2.2
+		* Bugfix: Pagebrowser icon not shown in contains plugin select box
+		* Bugfix #27507: Usage of $ICON_TYPES is deprecated since 4.4 (thx Eckhard M. Jäger)
+		* Bugfix #3713: The property "ATagParams" in the link to FIRST page was set at the wrong place (thx Maria Vassileva)
+		* Bugfix #8000: Navigation title output instead of number (thx Simon Schaufelberger)
+
 1.2.1
 		* Bugfix: Display of pagebrowser doktype was broken in TYPO3 4.2.1
 		* Change: Use includeLibs instead of ST43
