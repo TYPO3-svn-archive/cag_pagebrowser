@@ -1,0 +1,187 @@
+##########################################################
+# TypoScript Config for Tree Prevnext					 #
+##########################################################
+
+plugin.tx_cagpagebrowser {
+
+	# values need to be cleared here since some TS is coming from ext_localconf and may not be overidden
+	5 >
+	10 >
+	20 >
+	25 >
+	30 >
+	40 >
+	50 >
+	_CSS_DEFAULT_STYLE >
+
+	5 = USER
+	5 {
+		userFunc = tx_cagpagebrowser->treePrevNext
+		excludeUids = {$plugin.tx_cagpagebrowser.excludeUidList}
+		treeLoop = {$plugin.tx_cagpagebrowser.treePrevNext.treeLoop}
+	}
+
+	10 = TEXT
+	10.wrap = {$plugin.tx_cagpagebrowser.wrapFirst}
+	10 {
+		# get FIRST page title
+		cObject = TEXT
+		cObject.wrap = {|}
+		cObject.insertData = 1
+		cObject.cObject = TEXT
+		cObject.cObject.dataWrap = DB : pages:{field:first}:title
+
+		# build link to the PREVIOUS page
+		typolink.parameter.field = first
+		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.first}"
+
+		# pagetitle overridden with browseword if is true
+		cObject.stdWrap {
+
+			override.cObject = TEXT
+			override.cObject.value = {$plugin.tx_cagpagebrowser.first}
+			override.cObject.wrap = <span class="previous first"> | </span>
+
+			override.if {
+				value = 1
+				equals = {$plugin.tx_cagpagebrowser.browsewords}
+			}
+		}
+	}
+	
+	20 = TEXT
+	20.wrap = {$plugin.tx_cagpagebrowser.wrapPrevious}
+	20 {
+		# get PREVIOUS page title
+		cObject = TEXT
+		cObject.wrap = {|}
+		cObject.insertData = 1
+		cObject.cObject = TEXT
+		cObject.cObject.dataWrap = DB : pages:{field:prev}:title
+
+		# build link to the PREVIOUS page
+		typolink.parameter.field = prev
+		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.previous}"
+
+		# pagetitle overridden with browseword if is true
+		cObject.stdWrap {
+
+			override.cObject = TEXT
+			override.cObject.value = {$plugin.tx_cagpagebrowser.previous}
+			override.cObject.wrap = <span class="previous"> | </span>
+
+			override.if {
+				value = 1
+				equals = {$plugin.tx_cagpagebrowser.browsewords}
+			}
+		}
+	}
+	
+	30 = TEXT
+	30.wrap = {$plugin.tx_cagpagebrowser.wrapIndex}
+	30 {
+		# get PREVIOUS page title
+		cObject = TEXT
+		cObject.wrap = {|}
+		cObject.insertData = 1
+		cObject.cObject = TEXT
+		cObject.cObject.dataWrap = DB : pages:{field:index}:title
+
+		# build link to the PREVIOUS page
+		typolink.parameter.field = index
+		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.index}"
+
+		# pagetitle overridden with browseword if is true
+		cObject.stdWrap {
+
+			override.cObject = TEXT
+			override.cObject.value = {$plugin.tx_cagpagebrowser.index}
+			override.cObject.wrap = <span class="index"> | </span>
+
+			override.if {
+				value = 1
+				equals = {$plugin.tx_cagpagebrowser.browsewords}
+			}
+		}
+	}		
+
+	40 = TEXT
+	40.wrap = {$plugin.tx_cagpagebrowser.wrapNext}
+	40 {
+		# get PREVIOUS page title
+		cObject = TEXT
+		cObject.wrap = {|}
+		cObject.insertData = 1
+		cObject.cObject = TEXT
+		cObject.cObject.dataWrap = DB : pages:{field:next}:title
+
+		# build link to the PREVIOUS page
+		typolink.parameter.field = next
+		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.previous}"
+
+		# pagetitle overridden with browseword if is true
+		cObject.stdWrap {
+
+			override.cObject = TEXT
+			override.cObject.value = {$plugin.tx_cagpagebrowser.next}
+			override.cObject.wrap = <span class="next"> | </span>
+
+			override.if {
+				value = 1
+				equals = {$plugin.tx_cagpagebrowser.browsewords}
+			}
+		}
+	}
+
+	50 = TEXT
+	50.wrap = {$plugin.tx_cagpagebrowser.wrapLast}
+	50 {
+		# get LAST page title
+		cObject = TEXT
+		cObject.wrap = {|}
+		cObject.insertData = 1
+		cObject.cObject = TEXT
+		cObject.cObject.dataWrap = DB : pages:{field:last}:title
+
+		# build link to the PREVIOUS page
+		typolink.parameter.field = last
+		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.last}"
+
+		# pagetitle overridden with browseword if is true
+		cObject.stdWrap {
+
+			override.cObject = TEXT
+			override.cObject.value = {$plugin.tx_cagpagebrowser.last}
+			override.cObject.wrap = <span class="next last"> | </span>
+
+			override.if {
+				value = 1
+				equals = {$plugin.tx_cagpagebrowser.browsewords}
+			}
+		}
+	}
+
+	userFunc >
+	entryLink >
+
+	stdWrap {
+		if.value = 1
+		if.equals.cObject = USER
+		if.equals.cObject {
+			userFunc = tx_cagpagebrowser->main
+			browserMode = {$plugin.tx_cagpagebrowser.browserMode}
+			excludeUidList = {$plugin.tx_cagpagebrowser.excludeUidList}
+		}
+	}
+
+	_CSS_DEFAULT_STYLE (
+		div.cag_pagebrowser {margin: 2em 0 1em 0;}
+		div.cag_pagebrowser ul {list-style-type: none; margin: 0; padding: 0;}
+		div.cag_pagebrowser ul li {display: inline; text-align: center;}
+		div.cag_pagebrowser a {font-size: 0.8em;}
+		div.cag_pagebrowser .divider {padding: 0 0.5em;}
+		div.cag_pagebrowser ul li.first {padding-right: 0.5em}		
+		div.cag_pagebrowser ul li.last {padding-left: 0.5em}
+	)
+
+}

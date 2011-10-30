@@ -1,0 +1,6 @@
+#cat=plugin.cag_pagebrowser.treePrevNext/enable/a; type=options[0,1]; label= Tree Loop: Loop from the first page in the subtree to the last and reverse
+plugin.tx_cagpagebrowser.treePrevNext.treeLoop = 1
+
+# others
+plugin.tx_cagpagebrowser.browserMode = rec
+plugin.tx_cagpagebrowser.dtypes = 3,5,6,7,199,254,255

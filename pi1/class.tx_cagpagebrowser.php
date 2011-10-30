@@ -56,7 +56,7 @@ class tx_cagpagebrowser extends tslib_pibase {
 	 *
 	 * @return	boolean
 	 */
-	function main ($content, $conf) {
+	public function main ($content, $conf) {
 
 		$exludeUids = in_array($this->cObj->getData('page: uid',''), t3lib_div::trimExplode(',',$conf['excludeUidList']));
 
@@ -84,7 +84,7 @@ class tx_cagpagebrowser extends tslib_pibase {
 			}
 
 		} elseif ($conf['browserFunction'] == 'both' && $conf['browserMode'] == 'rec') {
-
+			
 			($this->checkValueInRootline('doktype','21') && $exludeUids != 1) ? $value = '1' : $value = '0';
 			if (!$value) {
 				($this->checkValueInRootline('module','pbrowser') && $exludeUids != 1) ? $value = '1' : $value = '0';
@@ -106,7 +106,7 @@ class tx_cagpagebrowser extends tslib_pibase {
 	 *
 	 * @return	boolean
 	 */
-	function checkValueInRootline ($field, $fieldvalue) {
+	public function checkValueInRootline ($field, $fieldvalue) {
 
 		$rootLine = $GLOBALS['TSFE']->tmpl->rootLine;
 
@@ -128,7 +128,7 @@ class tx_cagpagebrowser extends tslib_pibase {
 	 *
 	 * @return	boolean
 	 */
-	function entryLink ($content, $conf) {
+	public function entryLink ($content, $conf) {
 
 		$exludeUids = in_array($this->cObj->data['uid'], t3lib_div::trimExplode(',',$conf['excludeUidList']));
 
@@ -156,7 +156,7 @@ class tx_cagpagebrowser extends tslib_pibase {
 	 *
 	 * @return	array	The modified menu array
 	 */
-	function pageNumbers ($menuArr, $conf) {
+	public function pageNumbers ($menuArr, $conf) {
 
 		$stepSize = $conf['parentObj']->conf['1.']['stepSize'];
 		$useNumbering = $conf['parentObj']->conf['1.']['useNumbering'];
@@ -202,6 +202,131 @@ class tx_cagpagebrowser extends tslib_pibase {
 			}
 		}
 		return $menuArr;
+	}
+	
+	/* Makes it possible to loop through a whole pagetree with first/prev/index/next/last regardless of levels.
+	 * Shortcuts and external URLs are also supported. Ignored doktypes are 5-n/in menu, 6-BE user, 7-mountpoint, 255-Recycler.
+	 * Doktypes that will be skipped in the navigation are 199-Spacer and 254-Sysfolder.
+	 * 
+	 * @param $content	Content from TypoScript, emtpy in this case
+	 * @param $conf		Configuration of the Userfunction in TypoScript
+	 * 
+	 * @return void
+	 * 
+	 */
+	public function treePrevNext ($content, $conf) {
+		
+		// first go back to the pagebrowser page...
+		foreach ($GLOBALS['TSFE']->tmpl->rootLine as $ancestor) {
+			if ($ancestor['module'] == 'pbrowser' || $ancestor['doktype'] == 21) $entrypoint = $ancestor['uid'];
+		}
+		
+		// set the pagebrowser page as index page for the full tree branch
+		$this->cObj->data['index'] = $entrypoint;
+		
+		// get uids to exclude if any
+		if ($conf['excludeUids']) $excludeUids = t3lib_div::trimExplode(',', $conf['excludeUids'], 1);		
+		
+		// ...and collect all pages of the current branch from there
+		$excludeDoktypes = 'AND doktype NOT IN (5,6,7,255)';		
+		$tree = t3lib_div::trimExplode(',', $this->cObj->getTreeList($entrypoint, 10, 0, FALSE, '', $excludeDoktypes), 1);
+
+		// filtering for sysfolders & dividers in the tree; at the same time bild a page array for later treatment of shortcuts
+		foreach ($tree as $key => $uid) {			
+			$pageArray[$uid] = $GLOBALS['TSFE']->sys_page->getRawRecord('pages', $uid, 'uid,doktype,shortcut,shortcut_mode,url');
+			// drop sysfolders and dividers from subtree
+			if ($pageArray[$uid]['doktype'] == 199 || $pageArray[$uid]['doktype'] == 254 || in_array($pageArray[$uid]['uid'], $excludeUids)) {
+				unset($pageArray[$uid]);
+			}
+		}
+		
+		// reset array keys
+		$filteredTree = array_keys($pageArray);
+
+		// determine position of the current page within the tree
+		$currentKey = array_search($GLOBALS['TSFE']->id, $filteredTree);
+		$prevUid = $filteredTree[$currentKey-1];
+		$nextUid = $filteredTree[$currentKey+1];
+		$prevPages = array_reverse(array_slice($filteredTree, 0, $currentKey));
+		$nextPages = array_slice($filteredTree, $currentKey+1);
+
+		// previous page is a shortcut
+		if ($pageArray[$prevUid]['doktype'] == 4) {
+				
+			// first determine where this points to
+			$shortcutTarget = $GLOBALS['TSFE']->getPageShortcut($pageArray[$prevUid]['shortcut'], $pageArray[$prevUid]['shortcut_mode'], $pageArray[$prevUid]['uid']);
+
+			// if the shortcut target doesn't exist or points 'behind' current page or is the current page...
+			if (!$shortcutTarget || in_array($shortcutTarget['uid'], $nextPages) || $shortcutTarget['uid'] == $GLOBALS['TSFE']->id) {
+				
+				// determine a new valid previous page since the current blocks the way				
+				$validPrevUid = $this->getValidTreePrevNextPage($prevPages, $nextPages, $pageArray);
+				($validPrevUid) ? $prevUid = $validPrevUid : $prevUid = 0;
+				 
+			} // else nothing done, shortcut points to valid prev page or outside
+		}
+
+		// next page is a shortcut
+		if ($pageArray[$nextUid]['doktype'] == 4) {
+
+			// first determine where this points to
+			$shortcutTarget = $GLOBALS['TSFE']->getPageShortcut($pageArray[$nextUid]['shortcut'], $pageArray[$nextUid]['shortcut_mode'], $pageArray[$nextUid]['uid']);
+			
+			// if the shortcut target doesn't exist or points 'behind' current page or is the current page...
+			if (!$shortcutTarget || in_array($shortcutTarget['uid'], $prevPages) || $shortcutTarget['uid'] == $GLOBALS['TSFE']->id) {
+							
+				// determine a new valid next page since the current blocks the way
+				$validNextUid = $this->getValidTreePrevNextPage($nextPages, $prevPages, $pageArray);
+				($validNextUid) ? $nextUid = $validNextUid : $nextUid = 0;
+			}
+		} // else nothing done, shortcut points to valid next page or outside
+		
+		// set values into current cObj->data;
+		// if first and last pages are shortcuts... well, this is not tested here		
+		$this->cObj->data['first'] = $filteredTree[0];	
+		$this->cObj->data['prev'] = $prevUid;		
+		$this->cObj->data['next'] = $nextUid;
+		$this->cObj->data['last'] = end($filteredTree);			
+		
+		// if looping is configured, prev/next also link back to first/last page in branch	
+		if (!$this->cObj->data['next'] && $conf['treeLoop'] == 1) $this->cObj->data['next'] = $this->cObj->data['first'];
+		if (!$this->cObj->data['prev'] && $conf['treeLoop'] == 1) $this->cObj->data['prev'] = $this->cObj->data['last'];
+	
+		return $content;
+	}
+	
+	/* Finds the next 'valid' page in the tree for prev/next navigation. Valid means one of the supported doktypes or, if shortcut,
+	 * not pointing 'behind' the current page (that would block the prev/next flow).
+	 * 
+	 * @param array 	Array consisting of uids to check (either the prev/next pages)
+	 * @param array		Array with uids that may not be allowed as prev/next targets
+	 * @param array		The full page array for the prev/navigation
+	 * 
+	 * @return integer
+	 * 
+	 */
+	public function getValidTreePrevNextPage($pagesToCheck, $dissallowedPages, $pageArray) {
+
+		foreach($pagesToCheck as $key => $value) {
+			
+			if ($pageArray[$value]['doktype'] == 4) {
+				if ($key == 0) continue; 
+				$target = $GLOBALS['TSFE']->getPageShortcut($pageArray[$value]['shortcut'], $pageArray[$value]['shortcut_mode'], $pageArray[$value]['uid']);
+				if (!$target || in_array($target['uid'], $dissallowedPages) || $target['uid'] == $GLOBALS['TSFE']->id) {
+					// not valid, page points 'behind'
+					continue;
+				} else {
+					$validPageUid = $value;
+					break;
+				}
+			// next valid prev page
+			} else {
+				$validPageUid = $value;
+				break;
+			}
+		}		
+
+		return $validPageUid;		
 	}
 }
 
