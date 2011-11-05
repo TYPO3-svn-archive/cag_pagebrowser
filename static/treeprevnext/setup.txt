@@ -32,20 +32,22 @@ plugin.tx_cagpagebrowser {
 		cObject.cObject.dataWrap = DB : pages:{field:first}:title
 
 		# build link to the PREVIOUS page
-		typolink.parameter.field = first
 		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.first}"
+		# if not in treeLoop mode links to first/previous page will NOT be generated on first page of tree branch
+		typolink.parameter.cObject = TEXT
+		typolink.parameter.cObject {
+			field = first
+			if.isTrue.field = prev
+		}
 
 		# pagetitle overridden with browseword if is true
-		cObject.stdWrap {
 
-			override.cObject = TEXT
-			override.cObject.value = {$plugin.tx_cagpagebrowser.first}
-			override.cObject.wrap = <span class="previous first"> | </span>
-
-			override.if {
-				value = 1
-				equals = {$plugin.tx_cagpagebrowser.browsewords}
-			}
+		override.cObject = TEXT
+		override.cObject.value = {$plugin.tx_cagpagebrowser.first}
+		override.cObject.wrap = <span class="previous first"> | </span>
+		override.if {
+			value = 1
+			equals = {$plugin.tx_cagpagebrowser.browsewords}
 		}
 	}
 	
@@ -64,16 +66,12 @@ plugin.tx_cagpagebrowser {
 		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.previous}"
 
 		# pagetitle overridden with browseword if is true
-		cObject.stdWrap {
-
-			override.cObject = TEXT
-			override.cObject.value = {$plugin.tx_cagpagebrowser.previous}
-			override.cObject.wrap = <span class="previous"> | </span>
-
-			override.if {
-				value = 1
-				equals = {$plugin.tx_cagpagebrowser.browsewords}
-			}
+		override.cObject = TEXT
+		override.cObject.value = {$plugin.tx_cagpagebrowser.previous}
+		override.cObject.wrap = <span class="previous"> | </span>
+		override.if {
+			value = 1
+			equals = {$plugin.tx_cagpagebrowser.browsewords}
 		}
 	}
 	
@@ -89,19 +87,15 @@ plugin.tx_cagpagebrowser {
 
 		# build link to the PREVIOUS page
 		typolink.parameter.field = index
-		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.index}"
+		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.indexword}"
 
 		# pagetitle overridden with browseword if is true
-		cObject.stdWrap {
-
-			override.cObject = TEXT
-			override.cObject.value = {$plugin.tx_cagpagebrowser.index}
-			override.cObject.wrap = <span class="index"> | </span>
-
-			override.if {
-				value = 1
-				equals = {$plugin.tx_cagpagebrowser.browsewords}
-			}
+		override.cObject = TEXT
+		override.cObject.value = {$plugin.tx_cagpagebrowser.indexword}
+		override.cObject.wrap = <span class="index"> | </span>
+		override.if {
+			value = 1
+			equals = {$plugin.tx_cagpagebrowser.browsewords}
 		}
 	}		
 
@@ -117,19 +111,15 @@ plugin.tx_cagpagebrowser {
 
 		# build link to the PREVIOUS page
 		typolink.parameter.field = next
-		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.previous}"
+		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.next}"
 
 		# pagetitle overridden with browseword if is true
-		cObject.stdWrap {
-
-			override.cObject = TEXT
-			override.cObject.value = {$plugin.tx_cagpagebrowser.next}
-			override.cObject.wrap = <span class="next"> | </span>
-
-			override.if {
-				value = 1
-				equals = {$plugin.tx_cagpagebrowser.browsewords}
-			}
+		override.cObject = TEXT
+		override.cObject.value = {$plugin.tx_cagpagebrowser.next}
+		override.cObject.wrap = <span class="next"> | </span>
+		override.if {
+			value = 1
+			equals = {$plugin.tx_cagpagebrowser.browsewords}
 		}
 	}
 
@@ -144,20 +134,21 @@ plugin.tx_cagpagebrowser {
 		cObject.cObject.dataWrap = DB : pages:{field:last}:title
 
 		# build link to the PREVIOUS page
-		typolink.parameter.field = last
 		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.last}"
+		# if not in treeLoop mode links to last/next page will NOT be generated on last page of tree branch		
+		typolink.parameter.cObject = TEXT
+		typolink.parameter.cObject {
+			field = last
+			if.isTrue.field = next
+		}		
 
 		# pagetitle overridden with browseword if is true
-		cObject.stdWrap {
-
-			override.cObject = TEXT
-			override.cObject.value = {$plugin.tx_cagpagebrowser.last}
-			override.cObject.wrap = <span class="next last"> | </span>
-
-			override.if {
-				value = 1
-				equals = {$plugin.tx_cagpagebrowser.browsewords}
-			}
+		override.cObject = TEXT
+		override.cObject.value = {$plugin.tx_cagpagebrowser.last}
+		override.cObject.wrap = <span class="next last"> | </span>
+		override.if {
+			value = 1
+			equals = {$plugin.tx_cagpagebrowser.browsewords}
 		}
 	}
 
