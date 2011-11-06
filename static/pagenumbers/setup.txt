@@ -46,9 +46,9 @@ plugin.tx_cagpagebrowser {
 
 			NO.allWrap = {$plugin.tx_cagpagebrowser.pagenumbers.wrapSingleNumber}
 
-			ACT < .NO
-			ACT = 1
-			ACT.doNotLinkIt = 1
+			CUR < .NO
+			CUR = 1
+			CUR.doNotLinkIt = 1
 
 		}
 	}

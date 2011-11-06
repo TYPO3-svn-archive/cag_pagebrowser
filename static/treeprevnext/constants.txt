@@ -1,6 +1,20 @@
 #cat=plugin.cag_pagebrowser.treePrevNext/enable/a; type=options[0,1]; label= Tree Loop: Loop from the first page in the subtree to the last and reverse
 plugin.tx_cagpagebrowser.treePrevNext.treeLoop = 1
 
-# others
+#cat=plugin.cag_pagebrowser.treePrevNext/enable/b; type=options[0,1]; label= Page Numbers: Insert all pages of the branch as numbers between prev and index parts (also see PLUGIN.CAG_PAGEBROWSER.PAGENUMBERS for configuration)
+plugin.tx_cagpagebrowser.treePrevNext.pageNumbers = 0
+
+#cat=plugin.cag_pagebrowser.pagenumbers/enable/a; type=options[0,1]; label= Use numbering: If activated, pagetitles are overriden with numbers
+plugin.tx_cagpagebrowser.pagenumbers.useNumbering = 1
+
+#cat=plugin.cag_pagebrowser.pagenumbers/enable/b; type=int+; label= Step size: Define the size of the pagesets to be shown
+plugin.tx_cagpagebrowser.pagenumbers.stepSize =
+
+#cat=plugin.cag_pagebrowser.pagenumbers/others/a; type=wrap; label= Pagenumber wrap: This wraps the part with the pagenumbers
+plugin.tx_cagpagebrowser.pagenumbers.wrapPageNumbers = <li class="pagenumbers"><ul>|</ul></li>
+
+#cat=plugin.cag_pagebrowser.pagenumbers/others/b; type=wrap; label= Single number wrap: This wraps the single numbers
+plugin.tx_cagpagebrowser.pagenumbers.wrapSingleNumber = <li class="number">|</li>
+
+# other settings
 plugin.tx_cagpagebrowser.browserMode = rec
-plugin.tx_cagpagebrowser.dtypes = 3,5,6,7,199,254,255

@@ -18,7 +18,9 @@ plugin.tx_cagpagebrowser {
 	5 {
 		userFunc = tx_cagpagebrowser->treePrevNext
 		excludeUids = {$plugin.tx_cagpagebrowser.excludeUidList}
+		excludeDoktypes = {$plugin.tx_cagpagebrowser.dtypes}
 		treeLoop = {$plugin.tx_cagpagebrowser.treePrevNext.treeLoop}
+		pageNumbers = {$plugin.tx_cagpagebrowser.treePrevNext.pageNumbers}
 	}
 
 	10 = TEXT
@@ -37,7 +39,12 @@ plugin.tx_cagpagebrowser {
 		typolink.parameter.cObject = TEXT
 		typolink.parameter.cObject {
 			field = first
-			if.isTrue.field = prev
+			if {
+				value.field = first
+				equals.data = TSFE:id
+				isFalse = {$plugin.tx_cagpagebrowser.treePrevNext.treeLoop}				
+				negate = 1
+			}
 		}
 
 		# pagetitle overridden with browseword if is true
@@ -62,7 +69,15 @@ plugin.tx_cagpagebrowser {
 		cObject.cObject.dataWrap = DB : pages:{field:prev}:title
 
 		# build link to the PREVIOUS page
-		typolink.parameter.field = prev
+		typolink.parameter.cObject = TEXT
+		typolink.parameter.cObject {
+			field = prev
+			if {
+				value.field = prev
+				equals.data = TSFE:id
+				negate = 1
+			}
+		}
 		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.previous}"
 
 		# pagetitle overridden with browseword if is true
@@ -74,6 +89,37 @@ plugin.tx_cagpagebrowser {
 			equals = {$plugin.tx_cagpagebrowser.browsewords}
 		}
 	}
+	
+	25 = HMENU
+	25 {
+
+		stdWrap.if.isTrue = {$plugin.tx_cagpagebrowser.treePrevNext.pageNumbers}
+
+		special = list
+		special.value.field = treeuids
+
+		excludeUidList = {$plugin.tx_cagpagebrowser.excludeUidList}
+		excludeDoktypes = {$plugin.tx_cagpagebrowser.dtypes}
+
+		1 = TMENU
+		1 {
+
+			itemArrayProcFunc = tx_cagpagebrowser->pageNumbers
+			stepSize = {$plugin.tx_cagpagebrowser.pagenumbers.stepSize}
+			useNumbering = {$plugin.tx_cagpagebrowser.pagenumbers.useNumbering}
+			noBlur = 1
+
+			wrap = {$plugin.tx_cagpagebrowser.pagenumbers.wrapPageNumbers}
+
+			NO.allWrap = {$plugin.tx_cagpagebrowser.pagenumbers.wrapSingleNumber}
+
+			CUR < .NO
+			CUR = 1
+			CUR.doNotLinkIt = 1
+
+		}
+
+	}	
 	
 	30 = TEXT
 	30.wrap = {$plugin.tx_cagpagebrowser.wrapIndex}
@@ -109,8 +155,16 @@ plugin.tx_cagpagebrowser {
 		cObject.cObject = TEXT
 		cObject.cObject.dataWrap = DB : pages:{field:next}:title
 
-		# build link to the PREVIOUS page
-		typolink.parameter.field = next
+		# build link to the NEXT page
+		typolink.parameter.cObject = TEXT
+		typolink.parameter.cObject {
+			field = next
+			if {
+				value.field = next
+				equals.data = TSFE:id
+				negate = 1
+			}
+		}
 		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.next}"
 
 		# pagetitle overridden with browseword if is true
@@ -139,7 +193,12 @@ plugin.tx_cagpagebrowser {
 		typolink.parameter.cObject = TEXT
 		typolink.parameter.cObject {
 			field = last
-			if.isTrue.field = next
+			if {
+				value.field = last 
+				equals.data = TSFE:id
+				isFalse = {$plugin.tx_cagpagebrowser.treePrevNext.treeLoop}
+				negate = 1
+			}
 		}		
 
 		# pagetitle overridden with browseword if is true
@@ -168,11 +227,12 @@ plugin.tx_cagpagebrowser {
 	_CSS_DEFAULT_STYLE (
 		div.cag_pagebrowser {margin: 2em 0 1em 0;}
 		div.cag_pagebrowser ul {list-style-type: none; margin: 0; padding: 0;}
-		div.cag_pagebrowser ul li {display: inline; text-align: center;}
+		div.cag_pagebrowser ul ul {display: inline;}		
+		div.cag_pagebrowser ul li {display: inline; text-align: center; padding: 0 0.5em;}		
 		div.cag_pagebrowser a {font-size: 0.8em;}
 		div.cag_pagebrowser .divider {padding: 0 0.5em;}
-		div.cag_pagebrowser ul li.first {padding-right: 0.5em}		
-		div.cag_pagebrowser ul li.last {padding-left: 0.5em}
+		div.cag_pagebrowser li.first {padding-left: 0;}
+		div.cag_pagebrowser li.last {padding-right: 0;}		
 	)
 
 }
