@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2006-2008 Torsten Schrade
+*  (c) 2006-2012 Torsten Schrade
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -32,11 +32,13 @@
 /**
  * [CLASS/FUNCTION INDEX of SCRIPT]
  *
- *  43: class tx_cagpagebrowser_pi1 extends tslib_pibase
- *  58: function main ($content, $conf)
- * 108: function checkValueInRootline ($field, $fieldvalue)
- * 130: function entryLink ($content, $conf)
- * 159: function pageNumbers ($menuArr, $conf)
+ *  46: class tx_cagpagebrowser_pi1 extends tslib_pibase
+ *  61: function main ($content, $conf)
+ * 111: function checkValueInRootline ($field, $fieldvalue)
+ * 133: function entryLink ($content, $conf)
+ * 161: function pageNumbers ($menuArr, $conf)
+ * 219: function treePrevNext ($content, $conf)
+ * 329: getValidTreePrevNextPage($pagesToCheck, $dissallowedPages, $pageArray)
  */
 
 require_once(PATH_tslib.'class.tslib_pibase.php');

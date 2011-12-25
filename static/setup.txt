@@ -168,6 +168,8 @@ plugin.tx_cagpagebrowser {
 				equals = {$plugin.tx_cagpagebrowser.browsewords}
 			}
 		}
+
+		# insert SUBSECTION only in recursive mode and if there are subpages		
 		if {
 			isTrue.numRows {
 				table = pages
@@ -180,6 +182,8 @@ plugin.tx_cagpagebrowser {
 					max = 1
 				}
 			}
+			value = rec
+			equals = {$plugin.tx_cagpagebrowser.browserMode}
 		}
 	}
 
