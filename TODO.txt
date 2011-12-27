@@ -1,1 +1,0 @@
-// PAGEBROWSER TODO: config option "includeAllElements" for basic script (std/rec mode)

@@ -18,3 +18,15 @@ plugin.tx_cagpagebrowser.pagenumbers.wrapSingleNumber = <li class="number">|</li
 
 # other settings
 plugin.tx_cagpagebrowser.browserMode = rec
+
+#cat=plugin.cag_pagebrowser/others/b; type=wrap; label= LAST Wrap: This wraps the link to the LAST page in the current SECTION
+plugin.tx_cagpagebrowser.wrapLast = <li class="last">|</li>
+
+#cat=plugin.cag_pagebrowser/others/d; type=wrap; label= INDEX wrap: This wraps the INDEX link and the divider
+plugin.tx_cagpagebrowser.wrapIndex = <li class="index">|</li>
+
+#cat=plugin.cag_pagebrowser/others/g; type=wrap; label= FIRST wrap: This wraps the link to the FIRST page in the current SECTION
+plugin.tx_cagpagebrowser.wrapFirst = <li class="first">|</li>
+
+#cat=plugin.cag_pagebrowser/others/h; type=wrap; label= SUBSECTION wrap: This wraps the link to the FIRST valid page in the SUBSECTION of the current page
+plugin.tx_cagpagebrowser.wrapSubsection = 

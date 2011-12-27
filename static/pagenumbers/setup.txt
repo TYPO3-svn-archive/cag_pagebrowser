@@ -6,9 +6,6 @@ plugin.tx_cagpagebrowser {
 	# set subsection part to be second
 	8 < .25
 
-	# set subsection part to be second
-
-
 	# move LAST part to last position & link it only when not on last page
 	51 < .10
 	51.typolink.parameter.if < .40.if
@@ -49,7 +46,6 @@ plugin.tx_cagpagebrowser {
 			CUR < .NO
 			CUR = 1
 			CUR.doNotLinkIt = 1
-
 		}
 	}
 

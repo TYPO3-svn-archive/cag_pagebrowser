@@ -2,17 +2,11 @@
 # TypoScript Config for Tree Prevnext					 #
 ##########################################################
 
-plugin.tx_cagpagebrowser {
+# include rendering class
+includeLibs.tx_cagpagebrowser = EXT:cag_pagebrowser/pi1/class.tx_cagpagebrowser.php
 
-	# values need to be cleared here since some TS is coming from ext_localconf and may not be overidden
-	5 >
-	10 >
-	20 >
-	25 >
-	30 >
-	40 >
-	50 >
-	_CSS_DEFAULT_STYLE >
+plugin.tx_cagpagebrowser = COA
+plugin.tx_cagpagebrowser {
 
 	5 = USER
 	5 {
@@ -22,10 +16,36 @@ plugin.tx_cagpagebrowser {
 		treeLoop = {$plugin.tx_cagpagebrowser.treePrevNext.treeLoop}
 		pageNumbers = {$plugin.tx_cagpagebrowser.treePrevNext.pageNumbers}
 	}
-
+	
+	# index
 	10 = TEXT
-	10.wrap = {$plugin.tx_cagpagebrowser.wrapFirst}
+	10.wrap = {$plugin.tx_cagpagebrowser.wrapIndex}
 	10 {
+		# get page title
+		cObject = TEXT
+		cObject.wrap = {|}
+		cObject.insertData = 1
+		cObject.cObject = TEXT
+		cObject.cObject.dataWrap = DB : pages:{field:index}:title
+
+		# build link to the PREVIOUS page
+		typolink.parameter.field = index
+		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.indexword}"
+
+		# pagetitle overridden with browseword if is true
+		override.cObject = TEXT
+		override.cObject.value = {$plugin.tx_cagpagebrowser.indexword}
+		override.cObject.wrap = <span class="index"> | </span>
+		override.if {
+			value = 1
+			equals = {$plugin.tx_cagpagebrowser.browsewords}
+		}
+	}
+
+	# first
+	20 = TEXT
+	20.wrap = {$plugin.tx_cagpagebrowser.wrapFirst}
+	20 {
 		# get FIRST page title
 		cObject = TEXT
 		cObject.wrap = {|}
@@ -33,8 +53,9 @@ plugin.tx_cagpagebrowser {
 		cObject.cObject = TEXT
 		cObject.cObject.dataWrap = DB : pages:{field:first}:title
 
-		# build link to the PREVIOUS page
+		# build link to first page
 		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.first}"
+		
 		# if not in treeLoop mode links to first/previous page will NOT be generated on first page of tree branch
 		typolink.parameter.cObject = TEXT
 		typolink.parameter.cObject {
@@ -58,9 +79,10 @@ plugin.tx_cagpagebrowser {
 		}
 	}
 	
-	20 = TEXT
-	20.wrap = {$plugin.tx_cagpagebrowser.wrapPrevious}
-	20 {
+	# previous
+	30 = TEXT
+	30.wrap = {$plugin.tx_cagpagebrowser.wrapPrevious}
+	30 {
 		# get PREVIOUS page title
 		cObject = TEXT
 		cObject.wrap = {|}
@@ -90,8 +112,9 @@ plugin.tx_cagpagebrowser {
 		}
 	}
 	
-	25 = HMENU
-	25 {
+	# pagenumbers
+	40 = HMENU
+	40 {
 
 		stdWrap.if.isTrue = {$plugin.tx_cagpagebrowser.treePrevNext.pageNumbers}
 
@@ -118,36 +141,13 @@ plugin.tx_cagpagebrowser {
 			CUR.doNotLinkIt = 1
 
 		}
-
-	}	
-	
-	30 = TEXT
-	30.wrap = {$plugin.tx_cagpagebrowser.wrapIndex}
-	30 {
-		# get PREVIOUS page title
-		cObject = TEXT
-		cObject.wrap = {|}
-		cObject.insertData = 1
-		cObject.cObject = TEXT
-		cObject.cObject.dataWrap = DB : pages:{field:index}:title
-
-		# build link to the PREVIOUS page
-		typolink.parameter.field = index
-		typolink.ATagParams = title="{$plugin.tx_cagpagebrowser.indexword}"
-
-		# pagetitle overridden with browseword if is true
-		override.cObject = TEXT
-		override.cObject.value = {$plugin.tx_cagpagebrowser.indexword}
-		override.cObject.wrap = <span class="index"> | </span>
-		override.if {
-			value = 1
-			equals = {$plugin.tx_cagpagebrowser.browsewords}
-		}
+		
 	}		
 
-	40 = TEXT
-	40.wrap = {$plugin.tx_cagpagebrowser.wrapNext}
-	40 {
+	# next
+	50 = TEXT
+	50.wrap = {$plugin.tx_cagpagebrowser.wrapNext}
+	50 {
 		# get PREVIOUS page title
 		cObject = TEXT
 		cObject.wrap = {|}
@@ -177,9 +177,10 @@ plugin.tx_cagpagebrowser {
 		}
 	}
 
-	50 = TEXT
-	50.wrap = {$plugin.tx_cagpagebrowser.wrapLast}
-	50 {
+	# last
+	60 = TEXT
+	60.wrap = {$plugin.tx_cagpagebrowser.wrapLast}
+	60 {
 		# get LAST page title
 		cObject = TEXT
 		cObject.wrap = {|}
@@ -210,9 +211,8 @@ plugin.tx_cagpagebrowser {
 			equals = {$plugin.tx_cagpagebrowser.browsewords}
 		}
 	}
-
+	
 	userFunc >
-	entryLink >
 
 	stdWrap {
 		if.value = 1
@@ -223,16 +223,5 @@ plugin.tx_cagpagebrowser {
 			excludeUidList = {$plugin.tx_cagpagebrowser.excludeUidList}
 		}
 	}
-
-	_CSS_DEFAULT_STYLE (
-		div.cag_pagebrowser {margin: 2em 0 1em 0;}
-		div.cag_pagebrowser ul {list-style-type: none; margin: 0; padding: 0;}
-		div.cag_pagebrowser ul ul {display: inline;}		
-		div.cag_pagebrowser ul li {display: inline; text-align: center; padding: 0 0.5em;}		
-		div.cag_pagebrowser a {font-size: 0.8em;}
-		div.cag_pagebrowser .divider {padding: 0 0.5em;}
-		div.cag_pagebrowser li.first {padding-left: 0;}
-		div.cag_pagebrowser li.last {padding-right: 0;}		
-	)
 
 }
