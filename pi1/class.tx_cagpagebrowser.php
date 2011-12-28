@@ -213,7 +213,7 @@ class tx_cagpagebrowser extends tslib_pibase {
 	 * @param $content	Content from TypoScript, emtpy in this case
 	 * @param $conf		Configuration of the Userfunction in TypoScript
 	 * 
-	 * @return void
+	 * @return void		The function fills $GLOBAL registers so that the 'Pagebrowser (Reloaded)' TypoScript can be used seamlessly
 	 * 
 	 */
 	public function treePrevNext ($content, $conf) {
@@ -224,22 +224,22 @@ class tx_cagpagebrowser extends tslib_pibase {
 		}
 		
 		// ... and set it as index page for the tree branch
-		$this->cObj->data['index'] = $entrypoint;
+		$GLOBALS['TSFE']->register['index'] = $entrypoint;
 		
-		// ... and now collect all pages from this branch (mind: collection will not decend into recyclers or down mountpoint sections)
+		// now collect all pages from this branch (mind: collection will not decend into recyclers or down mountpoint sections)
 		$additionalWhere = 'AND doktype NOT IN (7,255)';		
 		$tree = t3lib_div::trimExplode(',', $this->cObj->getTreeList($entrypoint, 10, 0, FALSE, '', $additionalWhere), 1);
 
 		// get uids to exclude if any
 		if ($conf['excludeUids']) $excludeUids = t3lib_div::trimExplode(',', $conf['excludeUids'], 1);
 
-		// doktypes to skip in the pagebrowser navigation /the following will *always* be skipped)
+		// doktypes to skip in the pagebrowser navigation / the following will *always* be skipped)
 		$doktypesToSkip = array(0 => 5, 1 => 6, 2 => 7, 3 => 21, 4 => 199, 5 => 254, 6 => 255);
-		// if the user has set other doktypes to skip merge them
+		// if the user has set other doktypes to skip, merge them
 		if ($conf['excludeDoktypes']) $excludeDoktypes = t3lib_div::trimExplode(',', $conf['excludeDoktypes'], 1);
 		if (count($excludeDoktypes) > 0) $doktypesToSkip = array_merge($doktypesToSkip, array_diff($excludeDoktypes, $doktypesToSkip));	
 		
-		// filter the page array for forbidden doktypes, uids to skip and for later treatment of shortcuts and external if they are allowed
+		// filter the page array for forbidden doktypes, uids to skip and for later treatment of shortcuts and externals
 		foreach ($tree as $key => $uid) {
 			// get page information		
 			$pageArray[$uid] = $GLOBALS['TSFE']->sys_page->getRawRecord('pages', $uid, 'uid,doktype,shortcut,shortcut_mode,url,nav_hide');
@@ -252,7 +252,7 @@ class tx_cagpagebrowser extends tslib_pibase {
 		$filteredTree = array_keys($pageArray);
 		
 		// use pagenumbers?
-		if ($conf['pageNumbers'] == 1) $this->cObj->data['treeuids'] = implode(',', $filteredTree);
+		if ($conf['pageNumbers'] == 1) $GLOBALS['TSFE']->register['treeuids'] = implode(',', $filteredTree);
 
 		// determine position of the current page within the tree
 		$currentKey = array_search($GLOBALS['TSFE']->id, $filteredTree);
@@ -292,25 +292,25 @@ class tx_cagpagebrowser extends tslib_pibase {
 			}
 		} // else nothing done, shortcut points to valid next page or outside
 		
-		// set values into current cObj->data;
+		// set values to $GLOBAL registers
 		// if first and last pages are shortcuts... well, this is not tested here		
-		$this->cObj->data['first'] = $filteredTree[0];	
-		$this->cObj->data['prev'] = $prevUid;		
-		$this->cObj->data['next'] = $nextUid;
-		$this->cObj->data['last'] = end($filteredTree);			
+		$GLOBALS['TSFE']->register['first'] = $filteredTree[0];	
+		$GLOBALS['TSFE']->register['previous'] = $prevUid;		
+		$GLOBALS['TSFE']->register['next'] = $nextUid;
+		$GLOBALS['TSFE']->register['last'] = end($filteredTree);			
 		
 		// if looping is configured, prev/next link to first/last page in branch	
-		if (!$this->cObj->data['next'] && $conf['treeLoop'] == 1) {
-			$this->cObj->data['next'] = $this->cObj->data['first'];
+		if (!$GLOBALS['TSFE']->register['next'] && $conf['browserLoop'] == 1) {
+			$GLOBALS['TSFE']->register['next'] = $GLOBALS['TSFE']->register['first'];
 		// if there is no prev page we are on the very first page; set this
-		} elseif (!$this->cObj->data['next'] && $conf['treeLoop'] != 1) {
-			$this->cObj->data['next'] = $this->cObj->data['last'];
+		} elseif (!$GLOBALS['TSFE']->register['next'] && $conf['browserLoop'] != 1) {
+			$GLOBALS['TSFE']->register['next'] = $GLOBALS['TSFE']->register['last'];
 		}
 		
-		if (!$this->cObj->data['prev'] && $conf['treeLoop'] == 1) {
-			$this->cObj->data['prev'] = $this->cObj->data['last'];
-		} elseif (!$this->cObj->data['prev'] && $conf['treeLoop'] != 1) {
-			$this->cObj->data['prev'] = $this->cObj->data['first'];			
+		if (!$GLOBALS['TSFE']->register['previous'] && $conf['browserLoop'] == 1) {
+			$GLOBALS['TSFE']->register['previous'] = $GLOBALS['TSFE']->register['last'];
+		} elseif (!$GLOBALS['TSFE']->register['previous'] && $conf['browserLoop'] != 1) {
+			$GLOBALS['TSFE']->register['previous'] = $GLOBALS['TSFE']->register['first'];			
 		}
 	
 		return $content;

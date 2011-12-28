@@ -9,9 +9,14 @@ includeLibs.tx_cagpagebrowser = EXT:cag_pagebrowser/pi1/class.tx_cagpagebrowser.
 plugin.tx_cagpagebrowser = COA
 plugin.tx_cagpagebrowser {
 
-	# registers that load all uids and page titles for link generation
-	5 = LOAD_REGISTER
-	5 {
+	## REGISTERS ##
+
+	# contains registers that load all uids and page titles for link generation
+	5 = COA
+	
+	# uid registers
+	5.10 = LOAD_REGISTER
+	5.10 {
 
 		# list of uids that will be excluded from the navigation
 		excludeUids.cObject = TEXT
@@ -112,9 +117,12 @@ plugin.tx_cagpagebrowser {
 				cObject < plugin.tx_cagpagebrowser.5.first.cObject
 			}			
 		}
-		
-		# get the page titles of all browser elements
-		
+	}
+	
+	# page title registers
+	5.20 = LOAD_REGISTER
+	5.20 {	
+
 		indexTitle {
 			cObject = TEXT
 			cObject.dataWrap = DB:pages:{register:index}:title
@@ -170,6 +178,8 @@ plugin.tx_cagpagebrowser {
 		}
 		
 	}
+	
+	## BROWSER ELEMENTS ##
 	
 	# index element
 	10 = TEXT
@@ -348,6 +358,7 @@ plugin.tx_cagpagebrowser {
 			browserMode = {$plugin.tx_cagpagebrowser.browserMode}
 			excludeUidList = {$plugin.tx_cagpagebrowser.excludeUidList}
 		}
+		wrap = {$plugin.tx_cagpagebrowser.wrapWhole}
 	}
 
 }
