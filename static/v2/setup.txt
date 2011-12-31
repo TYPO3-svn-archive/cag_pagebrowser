@@ -1,5 +1,5 @@
 ##########################################################
-# TypoScript Config for Pagebrowser:Reloaded			 #
+# TypoScript Config for Pagebrowser v.2			 		#
 ##########################################################
 
 # include rendering class
@@ -96,7 +96,7 @@ plugin.tx_cagpagebrowser {
 					value.data = register:first
 					equals.data = TSFE:id
 				}
-				cObject < plugin.tx_cagpagebrowser.5.last.cObject
+				cObject < plugin.tx_cagpagebrowser.5.10.last.cObject
 			}
 		}
 		
@@ -114,7 +114,7 @@ plugin.tx_cagpagebrowser {
 					value.data = register:last
 					equals.data = TSFE:id
 				}
-				cObject < plugin.tx_cagpagebrowser.5.first.cObject
+				cObject < plugin.tx_cagpagebrowser.5.10.first.cObject
 			}			
 		}
 	}

@@ -1,5 +1,5 @@
 ##########################################################
-# General TypoScript Config for plugin.tx_cagpagebrowser #
+# TypoScript Config for Pagebrowser v.1					 #
 ##########################################################
 
 # include rendering class

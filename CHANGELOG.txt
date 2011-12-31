@@ -1,3 +1,13 @@
+2.0.0
+		* New feature: Rewritten pagebrowser TS script (v.2) - much cleaner, more performant and easier to adapt
+		* New feature (only v.2): Tree Prev/Next - navigate through the whole pagetree from first to last page regardless of levels (thx Heiko Hänsge for the idea)
+		* New feature (only v.2): configuration of pagenumber elements integrated into the script, no need for additional TS inclusion
+		* Change (only v.2): HTML output is simplified and has a more consisten class scheme now
+		* Change (only v.2): usage of _CSS_DEFAULT_STYLE dropped - pagebrowser simply outputs clean, unstyled HTML
+		* Change (only v.2): pagebrowser elements now remain stable (they don't disappear anymore if there is no according page)
+		* Change (only v.2): new order of pagebrowser elements is INDEX | SUBSECTION | FIRST | PREVIUOUS | PAGENUMBERS | NEXT | LAST
+		* Revised manual
+
 1.2.2
 		* Bugfix: Pagebrowser icon not shown in contains plugin select box
 		* Bugfix #27507: Usage of $ICON_TYPES is deprecated since 4.4 (thx Eckhard M. Jäger)

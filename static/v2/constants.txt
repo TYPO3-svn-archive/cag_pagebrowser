@@ -33,7 +33,7 @@ plugin.tx_cagpagebrowser.subsection = subsection
 #cat=plugin.cag_pagebrowser/enable/k; type=options[0,1]; label= Looping: If enabled, previous/next elements of the browser will link to last/first elements if on first or last page respectively
 plugin.tx_cagpagebrowser.browserLoop = 0
 
-#cat=plugin.cag_pagebrowser/enable/k; type=options[0,1]; label= Page numbers: If enabled, pages of the section are collected and inserted as numbers between previous and next elements (cf. according config options)
+#cat=plugin.cag_pagebrowser/enable/l; type=options[0,1]; label= Page numbers: If enabled, pages of the section are collected and inserted as numbers between previous and next elements (cf. according config options)
 plugin.tx_cagpagebrowser.pageNumbers = 0
 
 # wraps

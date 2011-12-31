@@ -2,12 +2,11 @@
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
 // Adding TS objects
-t3lib_extMgm::addStaticFile($_EXTKEY,'static/','Pagebrowser (Old style): Basics');
-t3lib_extMgm::addStaticFile($_EXTKEY,'static/entrylink','Pagebrowser (Old style): Entry link');
-t3lib_extMgm::addStaticFile($_EXTKEY,'static/pagenumbers','Pagebrowser (Old style): Pagenumbers');
-
-t3lib_extMgm::addStaticFile($_EXTKEY,'static/reloaded','Pagebrowser (Reloaded): Basics');
-t3lib_extMgm::addStaticFile($_EXTKEY,'static/treeprevnext','Pagebrowser (Reloaded): Tree Prev/Next');
+t3lib_extMgm::addStaticFile($_EXTKEY,'static/','Pagebrowser (v.1): Basics');
+t3lib_extMgm::addStaticFile($_EXTKEY,'static/pagenumbers','Pagebrowser (v.1): Pagenumbers');
+t3lib_extMgm::addStaticFile($_EXTKEY,'static/v2','Pagebrowser (v.2): Basics');
+t3lib_extMgm::addStaticFile($_EXTKEY,'static/treeprevnext','Pagebrowser (v.2): Tree Prev/Next');
+t3lib_extMgm::addStaticFile($_EXTKEY,'static/entrylink','Pagebrowser: Entry links');
 
 $_EXTCONF = unserialize($_EXTCONF);	// unserializing the configuration so we can use it here:
 
