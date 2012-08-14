@@ -1,11 +1,12 @@
 <?php
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
-$_EXTCONF = unserialize($_EXTCONF);	// unserializing the configuration so we can use it here:
+	// unserializing the configuration
+$_EXTCONF = unserialize($_EXTCONF);
 
 if ($_EXTCONF['opMode'] == 'doktype')	{
 
-	// include doktype field in rootline array so that we can get it later with levelfield
+		// include doktype field in rootline array so that we can get it later with levelfield
 	$GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'].=',doktype';
 
 	t3lib_extMgm::addTypoScript($_EXTKEY,'setup','
@@ -16,7 +17,7 @@ if ($_EXTCONF['opMode'] == 'doktype')	{
 
 if ($_EXTCONF['opMode'] == 'plugin')	{
 
-	// include pagebrowser field in rootline array so that we can get it later with levelfield
+		// include pagebrowser field in rootline array so that we can get it later with levelfield
 	$GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'].=',module';
 
 	t3lib_extMgm::addTypoScript($_EXTKEY,'setup','
@@ -27,7 +28,7 @@ if ($_EXTCONF['opMode'] == 'plugin')	{
 
 if ($_EXTCONF['opMode'] == 'both')	{
 
-	// include pagebrowser field in rootline array so that we can get it later with levelfield
+		// include pagebrowser field in rootline array so that we can get it later with levelfield
 	$GLOBALS['TYPO3_CONF_VARS']['FE']['addRootLineFields'].=',doktype,module';
 
 	t3lib_extMgm::addTypoScript($_EXTKEY,'setup','
