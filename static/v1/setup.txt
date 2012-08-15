@@ -337,7 +337,7 @@ plugin.tx_cagpagebrowser {
 		div.cag_pagebrowser {margin: 2em 0 1em 0;}
 		div.cag_pagebrowser ul {list-style-type: none; margin: 0; padding: 0;}
 		div.cag_pagebrowser ul li {display: inline; text-align: center;}
-		div.cag_pagebrowser a {font-size: 0.8em;}
+		div.cag_pagebrowser a {font-size: 1em;}
 		div.cag_pagebrowser .divider {padding: 0 0.5em;}
 	)
 }

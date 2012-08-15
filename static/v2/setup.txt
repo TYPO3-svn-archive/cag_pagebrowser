@@ -361,4 +361,10 @@ plugin.tx_cagpagebrowser {
 		wrap = {$plugin.tx_cagpagebrowser.wrapWhole}
 	}
 
+	_CSS_DEFAULT_STYLE (
+		div.cag_pagebrowser {margin: 2em 0 1em 0;}
+		div.cag_pagebrowser ul {list-style-type: none; margin: 0; padding: 0;}
+		div.cag_pagebrowser ul li {display: inline-block; text-align: center; margin: 0 1em;}
+		div.cag_pagebrowser a {font-size: 1em;}
+	)
 }
