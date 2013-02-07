@@ -229,7 +229,7 @@ class tx_cagpagebrowser extends tslib_pibase {
 		$tree = t3lib_div::trimExplode(',', $this->cObj->getTreeList($entrypoint, 10, 0, FALSE, '', $additionalWhere), 1);
 
 			// get uids to exclude if any
-		if ($conf['excludeUids']) $excludeUids = t3lib_div::trimExplode(',', $conf['excludeUids'], 1);
+		($conf['excludeUids']) ? $excludeUids = t3lib_div::trimExplode(',', $conf['excludeUids'], 1) : $excludeUids = array();
 
 			// doktypes to skip in the pagebrowser navigation / the following will *always* be skipped)
 		$doktypesToSkip = array(0 => 5, 1 => 6, 2 => 7, 3 => 21, 4 => 199, 5 => 254, 6 => 255);
