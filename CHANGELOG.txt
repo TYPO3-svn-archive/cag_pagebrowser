@@ -1,4 +1,8 @@
 2.0.1
+		* Bugfix: Pagebrowser icon not shown in TYPO3 Versions 6+
+		* Set TYPO3 version dependency to 4.5.0-6.1.99
+
+2.0.1
 		* Fixed PHP warning thrown for in_array in function treePrevNext (thx. Juergen Immes for reporting)
 		* Set TYPO3 version dependencies: Minimum required TYPO3 version is 4.5, maximum 6.0
 		* Cleanup of ext_tables.php

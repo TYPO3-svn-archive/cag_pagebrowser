@@ -12,7 +12,7 @@ t3lib_extMgm::addStaticFile($_EXTKEY,'static/common/entrylink','Pagebrowser (v.1
 $_EXTCONF = unserialize($_EXTCONF);	
 
 	// prepare pagebrowser icon
-$icon = t3lib_extMgm::extRelPath($_EXTKEY) . 'res/pagebrowser.gif';
+$icon = t3lib_extMgm::extRelPath($_EXTKEY) . 'res/pagebrowser.png';
 
 	// load TCA for pages
 t3lib_div::loadTCA('pages');
