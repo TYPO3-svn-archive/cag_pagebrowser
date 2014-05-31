@@ -41,8 +41,6 @@
  * 329: getValidTreePrevNextPage($pagesToCheck, $dissallowedPages, $pageArray)
  */
 
-require_once(PATH_tslib.'class.tslib_pibase.php');
-
 class tx_cagpagebrowser extends tslib_pibase {
 
 	var $prefixID = 'tx_cagpagebrowser';
